@@ -1,0 +1,30 @@
+<div class="p-5">
+  <div class="container mx-auto">
+    <h1 class="text-2xl font-extrabold py-5">Follow The steps and get your desired equipment</h1>
+    <section>
+      <ol class="items-center w-full space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse">
+        <li *ngFor="let step of requiredSteps" [ngClass]="currentStepIndex == requiredSteps.indexOf(step) || step.completed ? 'text-blue-600' : 'bg-bleu-100'" class="flex items-center space-x-2.5 rtl:space-x-reverse">
+        <span class="flex items-center justify-center w-8 h-8 border-2 rounded-full shrink-0" [ngClass]="currentStepIndex == requiredSteps.indexOf(step) || step.completed ? 'border-blue-600' : 'border-black-900'">
+            {{requiredSteps.indexOf(step) + 1}}
+        </span>
+          <span>
+            <h3 class="font-medium leading-tight">{{step.title}}</h3>
+            <p class="text-sm">{{step.description}}</p>
+        </span>
+        </li>
+      </ol>
+    </section>
+    <section>
+      <router-outlet></router-outlet>
+    </section>
+    <div class="flex gap-2">
+      <button *ngIf="currentStepIndex != 0" (click)="previousStep()" type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">previous</button>
+      <button *ngIf="currentStepIndex + 1 != requiredSteps.length; else validateButton" (click)="nextStep()" type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Next</button>
+      <ng-template #validateButton>
+        <button (click)="rentEquipments()" type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Validate</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+
