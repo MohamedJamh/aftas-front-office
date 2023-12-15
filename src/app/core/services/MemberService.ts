@@ -52,7 +52,7 @@ export class MemberService {
     searchMember(searchValue: string) {
       let params = new HttpParams()
             .set('value',searchValue)
-        return this.httpClient.get<Response<Member[]>>(this.envService.apiUrl + "/members/search", {observe : 'response', params : params})
+        return this.httpClient.get<Response<MemberPagination>>(this.envService.apiUrl + "/members/search", {observe : 'response', params : params})
             .pipe(
                 catchError((httpResponse) => {
                     let errorMessage : string = httpResponse.error.message + "\n";
@@ -60,7 +60,7 @@ export class MemberService {
                         errorMessage += err.message + "\n";
                     }
                     alert(errorMessage)
-                    return new Observable<HttpResponse<Response<Member[]>>>();
+                    return new Observable<HttpResponse<Response<MemberPagination>>>();
                 })
             )
     }

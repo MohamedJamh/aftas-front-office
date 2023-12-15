@@ -65,9 +65,9 @@ export class MembersComponent implements OnInit {
     searchMember() {
         if(this.searchValue != "" || this.searchValue != null){
             this.memberService.searchMember(this.searchValue)
-                .subscribe((response : HttpResponse<Response<Member[]>>) => {
+                .subscribe((response : HttpResponse<Response<MemberPagination>>) => {
                     if(response.status == 200 && response.body?.result){
-                        this.memberPagination.members = response.body.result;
+                        this.memberPagination = response.body.result;
                     }else if(response.body?.result == null){
                         this.memberPagination.members = [];
                     }
