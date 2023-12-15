@@ -15,11 +15,12 @@ export class MembersComponent implements OnInit {
 
   memberPagination : MemberPagination = new MemberPagination();
   newMember  : Member = new Member();
+  searchValue : string = "";
 
-  constructor(private userService : MemberService) { }
+  constructor(private memberService : MemberService) { }
 
   ngOnInit(): void {
-    this.userService.getMembers()
+    this.memberService.getMembers()
       .subscribe((response : HttpResponse<Response<MemberPagination>>) => {
         if(response.status == 200 && response.body?.result){
             this.memberPagination = response.body.result;
@@ -28,7 +29,7 @@ export class MembersComponent implements OnInit {
   }
 
   addUser() {
-      this.userService.addMember(this.newMember).subscribe((response : HttpResponse<Response<Member>>) => {
+      this.memberService.addMember(this.newMember).subscribe((response : HttpResponse<Response<Member>>) => {
         if(response.status == 200 && response.body?.result){
           this.memberPagination.members.push(response.body.result);
           window.alert(response.body.message)
@@ -42,7 +43,7 @@ export class MembersComponent implements OnInit {
 
   previousPage() {
     if(this.memberPagination.currentPage! > 1){
-      this.userService.getMembers(this.memberPagination.currentPage! - 2)
+      this.memberService.getMembers(this.memberPagination.currentPage! - 2)
         .subscribe((response : HttpResponse<Response<MemberPagination>>) => {
           if(response.status == 200 && response.body?.result){
             this.memberPagination = response.body.result;
@@ -52,7 +53,7 @@ export class MembersComponent implements OnInit {
   }
   nextPage() {
     if(this.memberPagination.currentPage! < this.memberPagination.totalPages!){
-      this.userService.getMembers(this.memberPagination.currentPage!)
+      this.memberService.getMembers(this.memberPagination.currentPage!)
         .subscribe((response : HttpResponse<Response<MemberPagination>>) => {
           if(response.status == 200 && response.body?.result){
             this.memberPagination = response.body.result;
@@ -60,4 +61,17 @@ export class MembersComponent implements OnInit {
         })
     }
   }
+
+    searchMember() {
+        if(this.searchValue != "" || this.searchValue != null){
+            this.memberService.searchMember(this.searchValue)
+                .subscribe((response : HttpResponse<Response<Member[]>>) => {
+                    if(response.status == 200 && response.body?.result){
+                        this.memberPagination.members = response.body.result;
+                    }else if(response.body?.result == null){
+                        this.memberPagination.members = [];
+                    }
+                })
+        }
+    }
 }

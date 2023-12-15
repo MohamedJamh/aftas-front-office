@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {catchError, Observable} from "rxjs";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import {Response} from "../models/Response";
 import {Member} from "../models/Member";
 import {EnvService} from "./EnvService";
@@ -47,5 +47,21 @@ export class MemberService {
                 return new Observable<HttpResponse<Response<Member>>>();
               })
           )
+    }
+
+    searchMember(searchValue: string) {
+      let params = new HttpParams()
+            .set('value',searchValue)
+        return this.httpClient.get<Response<Member[]>>(this.envService.apiUrl + "/members/search", {observe : 'response', params : params})
+            .pipe(
+                catchError((httpResponse) => {
+                    let errorMessage : string = httpResponse.error.message + "\n";
+                    for (let err of httpResponse.error.errors) {
+                        errorMessage += err.message + "\n";
+                    }
+                    alert(errorMessage)
+                    return new Observable<HttpResponse<Response<Member[]>>>();
+                })
+            )
     }
 }

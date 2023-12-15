@@ -15,10 +15,10 @@ export class LevelsComponent implements OnInit {
   levels : Level[] = [];
   newLevel  : Level = new Level();
 
-  constructor(private equipmentFamilyService : LevelService) {}
+  constructor(private levelService : LevelService) {}
 
   ngOnInit(): void {
-    this.equipmentFamilyService.getAllLevels()
+    this.levelService.getAllLevels()
         .subscribe((response : HttpResponse<Response<Level[]>>) => {
           if( [200].includes(response.status) && response.body?.result){
             this.levels = response.body.result;
@@ -27,7 +27,7 @@ export class LevelsComponent implements OnInit {
   }
 
   addLevel() {
-    this.equipmentFamilyService.addLevel(this.newLevel).subscribe((response : HttpResponse<Response<Level>>) => {
+    this.levelService.addLevel(this.newLevel).subscribe((response : HttpResponse<Response<Level>>) => {
       if( [200,201].includes(response.status) && response.body?.result){
         this.levels.push(response.body.result);
         alert(response.body.message)
