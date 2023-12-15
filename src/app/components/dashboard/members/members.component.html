@@ -1,16 +1,17 @@
 <div class="flex justify-between py-5">
-  <h1 class="font-extrabold text-3xl ">Available Users</h1>
+  <h1 class="font-extrabold text-3xl ">Available Members</h1>
   <button data-modal-target="user-modal" data-modal-toggle="user-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-    Toggle modal
+    Add Member
   </button>
 </div>
-<app-loader *ngIf="members.length == 0 else table" ></app-loader>
-<ng-template #table>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <caption class="hidden">Table for all available users</caption>
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
+        <th scope="col" class="px-6 py-3">
+          Number
+        </th>
         <th scope="col" class="px-6 py-3">
           First Name
         </th>
@@ -18,108 +19,131 @@
           Last Name
         </th>
         <th scope="col" class="px-6 py-3">
-          Organization Name
+          Accession Date
         </th>
         <th scope="col" class="px-6 py-3">
-          Email
+          Nationality
         </th>
         <th scope="col" class="px-6 py-3">
-          Created At
+          Identity Document Type
         </th>
         <th scope="col" class="px-6 py-3">
-          Phone
+          Identity Number
         </th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of members; trackBy : trackUser" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-          {{ user.firstName}}
+      <tr class="" *ngIf="memberPagination.members.length <= 0; else loopOnMembers">
+        <th colspan="7" class="text-center py-4 text-xl">
+          No members found
         </th>
-        <td class="px-6 py-4">
-          {{user.lastName}}
-        </td>
-        <td class="px-6 py-4">
-          {{user.organization.name}}
-        </td>
-        <td class="px-6 py-4">
-          {{user.email}}
-        </td>
-        <td class="px-6 py-4">
-          {{user.createdAt | date : "yyyy-MM-dd" }}
-        </td>
-        <td class="px-6 py-4">
-          0636516293
-        </td>
       </tr>
+      <ng-template #loopOnMembers>
+        <tr *ngFor="let member of memberPagination.members; trackBy : trackMember" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ member.num}}
+          </th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ member.firstName}}
+          </th>
+          <td class="px-6 py-4">
+            {{member.lastName}}
+          </td>
+          <td class="px-6 py-4">
+            {{member.accessionDate | date : "yyyy-MM-dd"}}
+          </td>
+          <td class="px-6 py-4">
+            {{member.nationality}}
+          </td>
+          <td class="px-6 py-4">
+            {{member.identityType }}
+          </td>
+          <td class="px-6 py-4">
+            {{member.identityNumber }}
+          </td>
+        </tr>
+      </ng-template>
       </tbody>
     </table>
+    <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between p-4" aria-label="Table navigation">
+      <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-900 dark:text-white">{{ memberPagination.currentPage == 1 ? 1 : (memberPagination.currentPage ?? 0) * 5 + (-1 * 5) }}-{{ (memberPagination.currentPage ?? 0) * 5 + (-1 * 5) + memberPagination.members.length}}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{memberPagination.totalElements}}</span></span>
+      <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+        <li>
+          <a (click)="previousPage()" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+        </li>
+        <li>
+          <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{memberPagination.currentPage }} / {{memberPagination.totalPages}}</a>
+        </li>
+        <li>
+          <a (click)="nextPage()" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+        </li>
+      </ul>
+    </nav>
   </div>
-</ng-template>
-<div id="user-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-  <div class="relative p-4 w-full max-w-md max-h-full">
-    <!-- Modal content -->
-    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-      <!-- Modal header -->
-      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-          Add user
-        </h3>
-        <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="user-modal">
-          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-          </svg>
-          <span class="sr-only">Close modal</span>
-        </button>
-      </div>
-      <!-- Modal body -->
-      <div class="p-4 md:p-5">
-        <form class="space-y-4" action="#">
-          <h4 >Personal Information</h4>
-          <div>
-            <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-            <input [(ngModel)]="newMember.firstName" type="text" name="firstName" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="John" required>
-          </div>
-          <div>
-            <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-            <input [(ngModel)]="newMember.lastName" type="text" name="lastName" id="lastName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Doe" required>
-          </div>
-          <div>
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-            <input [(ngModel)]="newMember.email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required>
-          </div>
-          <div>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-            <input [(ngModel)]="newMember.password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-          </div>
-          <div>
-            <label for="roles" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
-            <select id="roles" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option value="US">Client</option>
-            </select>
-          </div>
-          <h4 >Organization</h4>
-          <div>
-            <label for="organizationName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-            <input [(ngModel)]="newMember.organization.name" type="text" name="organizationName" id="organizationName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="rental hive" required>
-          </div>
-          <div>
-            <label for="since" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Since</label>
-            <input [(ngModel)]="newMember.organization.since" type="number" name="since" id="since" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="1999" required>
-          </div>
-          <div>
-            <label for="Industry" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Industry</label>
-            <input [(ngModel)]="newMember.organization.industry" type="text" name="Industry" id="Industry" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="tech " required>
-          </div>
-          <div>
-            <label for="size" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
-            <input [(ngModel)]="newMember.organization.size" type="number" min="10" name="size" id="size" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="1000" required>
-          </div>
-          <button (click)="this.addUser()" type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-hide="user-modal">Add user</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div id="user-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">-->
+<!--  <div class="relative p-4 w-full max-w-md max-h-full">-->
+<!--    &lt;!&ndash; Modal content &ndash;&gt;-->
+<!--    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">-->
+<!--      &lt;!&ndash; Modal header &ndash;&gt;-->
+<!--      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">-->
+<!--        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">-->
+<!--          Add user-->
+<!--        </h3>-->
+<!--        <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="user-modal">-->
+<!--          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">-->
+<!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>-->
+<!--          </svg>-->
+<!--          <span class="sr-only">Close modal</span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; Modal body &ndash;&gt;-->
+<!--      <div class="p-4 md:p-5">-->
+<!--        <form class="space-y-4" action="#">-->
+<!--          <h4 >Personal Information</h4>-->
+<!--          <div>-->
+<!--            <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>-->
+<!--            <input [(ngModel)]="newMember.firstName" type="text" name="firstName" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="John" required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>-->
+<!--            <input [(ngModel)]="newMember.lastName" type="text" name="lastName" id="lastName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Doe" required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>-->
+<!--            <input [(ngModel)]="newMember.email" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>-->
+<!--            <input [(ngModel)]="newMember.password" type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="roles" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>-->
+<!--            <select id="roles" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">-->
+<!--              <option value="US">Client</option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--          <h4 >Organization</h4>-->
+<!--          <div>-->
+<!--            <label for="organizationName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>-->
+<!--            <input [(ngModel)]="newMember.organization.name" type="text" name="organizationName" id="organizationName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="rental hive" required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="since" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Since</label>-->
+<!--            <input [(ngModel)]="newMember.organization.since" type="number" name="since" id="since" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="1999" required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="Industry" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Industry</label>-->
+<!--            <input [(ngModel)]="newMember.organization.industry" type="text" name="Industry" id="Industry" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="tech " required>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <label for="size" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>-->
+<!--            <input [(ngModel)]="newMember.organization.size" type="number" min="10" name="size" id="size" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="1000" required>-->
+<!--          </div>-->
+<!--          <button (click)="this.addUser()" type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-hide="user-modal">Add user</button>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 

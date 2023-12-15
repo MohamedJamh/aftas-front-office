@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Order} from "../../../core/models/IOrder";
 import {HttpResponse} from "@angular/common/http";
 import {Response} from "../../../core/models/Response";
-import {Equipment} from "../../../core/models/IEquipment";
 import {OrderService} from "../../../core/services/OrderService";
 import {EquipmentItem} from "../../../core/models/IEquipmentItem";
 import {Offer} from "../../../core/models/IOffer";

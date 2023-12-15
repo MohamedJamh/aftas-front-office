@@ -7,7 +7,7 @@ export interface IMember{
     lastName?: string;
     accessionDate?: Date;
     nationality?: string;
-    identityDocumentType?: string;
+  identityType?: string;
     identityNumber?: string;
 }
 
@@ -20,7 +20,7 @@ export class Member implements IMember{
       public lastName?: string,
       public accessionDate?: Date,
       public nationality?: string,
-      public identityDocumentType?: string,
+      public identityType?: string,
       public identityNumber?: string,
     ){}
 }

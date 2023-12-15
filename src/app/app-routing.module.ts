@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {HomeComponent} from "./components/home/home.component";
 import {MembersComponent} from "./components/dashboard/members/members.component";
-import {EquipmentFamilyComponent} from "./components/dashboard/equipment-family/equipment-family.component";
-import {EquipmentsComponent} from "./components/dashboard/equipments/equipments.component";
+import {LevelsComponent} from "./components/dashboard/levels/levels.component";
+import {FishesComponent} from "./components/dashboard/fishes/fishes.component";
 import {ServicesComponent} from "./components/services/services.component";
 import {RentalComponent} from "./components/services/rental/rental.component";
 import {CalendarComponent} from "./components/services/rental/calendar/calendar.component";
@@ -37,9 +37,9 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
-      {path: 'users', component: MembersComponent},
-      {path: 'equipment-family', component: EquipmentFamilyComponent},
-      {path: 'equipments', component: EquipmentsComponent},
+      {path: 'members', component: MembersComponent},
+      {path: 'levels', component: LevelsComponent},
+      {path: 'fishes', component: FishesComponent},
       {path: 'orders', component: OrdersComponent},
       {path: 'offers', component: OffersComponent},
       {path: 'reservation', component: ReservationsComponent},
