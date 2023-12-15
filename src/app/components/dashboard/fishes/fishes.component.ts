@@ -31,6 +31,7 @@ export class FishesComponent implements OnInit {
             this.levels = response.body.result;
           }
         })
+      this.newFish.image = "/assets/img/cta.png"
   }
 
 
@@ -47,4 +48,12 @@ export class FishesComponent implements OnInit {
       });
   }
 
+    handleUpload(event : any) {
+        const file = event.target?.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.newFish.image = reader.result as string;
+        };
+    }
 }

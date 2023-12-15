@@ -58,12 +58,27 @@
                 <form class="space-y-4" action="#">
                     <h4 >Fish Information</h4>
                     <div>
+                        <div class=" w-full overflow-hidden rounded-lg">
+                            <figure class="h-56" >
+                                <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400 ">Fish Image</figcaption>
+                                <img class="max-w-full rounded-lg" [src]="newFish.image"   alt="image description">
+                            </figure>
+                        </div>
+                        <input class="py-2 " type="file" [(ngModel)]="newFish.image" (change)="handleUpload($event)" name="fishImage" accept="image/*" >
+                    </div>
+                    <div>
                         <label for="fishName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Equipment Name</label>
                         <input [(ngModel)]="newFish.name" type="text" name="fishName" id="fishName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="John" required>
                     </div>
                     <div>
                         <label for="fishAverageWeight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Equipment Family</label>
                         <input [(ngModel)]="newFish.averageWeight" min="0.1" type="number" name="fishAverageWeight" id="fishAverageWeight" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="John" required>
+                    </div>
+                    <div>
+                        <label for="fishLevels" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Equipment Family</label>
+                        <select name="fishLevels" [(ngModel)]="newFish.levelCode" id="fishLevels" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option *ngFor="let level of levels" [ngValue]="level.code"  >code : {{level.code}} / points : {{level.points}}</option>
+                        </select>
                     </div>
                     <button (click)="addFish()" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-hide="fishes-modal">Add Equipment</button>
                 </form>
