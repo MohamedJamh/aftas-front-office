@@ -28,10 +28,9 @@ export class MembersComponent implements OnInit {
       })
   }
 
-  addUser() {
+  addMember() {
       this.memberService.addMember(this.newMember).subscribe((response : HttpResponse<Response<Member>>) => {
         if(response.status == 200 && response.body?.result){
-          this.memberPagination.members.push(response.body.result);
           window.alert(response.body.message)
         }
       });
@@ -73,5 +72,15 @@ export class MembersComponent implements OnInit {
                     }
                 })
         }
+    }
+
+    resetMemberTable() {
+          this.searchValue = "";
+          this.memberService.getMembers()
+              .subscribe((response : HttpResponse<Response<MemberPagination>>) => {
+                  if(response.status == 200 && response.body?.result){
+                      this.memberPagination = response.body.result;
+                  }
+              })
     }
 }
