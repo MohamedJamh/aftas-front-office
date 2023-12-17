@@ -1,0 +1,175 @@
+<div class="flex justify-between py-5">
+    <h1 class="font-extrabold text-3xl ">Competitions</h1>
+    <button data-modal-target="competition-modal" data-modal-toggle="competition-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        Add Competition
+    </button>
+</div>
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <caption class="hidden">Table for all available competitions</caption>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <td class="px-6 py-3">
+                 Code
+            </td>
+            <th scope="col" class="px-6 py-3">
+                 Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+                 Start time
+            </th>
+            <th scope="col" class="px-6 py-3">
+                End time
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Status
+            </th>
+            <th scope="col" class="px-6 py-3">
+                 Number of Participants
+            </th>
+            <th scope="col" class="px-6 py-3">
+                 Location
+            </th>
+            <th scope="col" class="px-6 py-3">
+                 Amount
+            </th>
+            <th class="sr-only">
+                Action
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="" *ngIf="competitions.length <= 0; else loopOnCompetitions">
+            <th colspan="7" class="text-center py-4 text-xl">
+                No Competitions found
+            </th>
+        </tr>
+        <ng-template #loopOnCompetitions>
+            <tr *ngFor="let competition of competitions; trackBy : trackCompetition" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ competition.code}}
+                </th>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ competition.date | date : "yyyy-MM-dd"}}
+                </th>
+                <td class="px-6 py-4">
+                    {{competition.startTime}}
+                </td>
+                <td class="px-6 py-4">
+                    {{competition.endTime}}
+                </td>
+                <td class="px-6 py-4" [ngSwitch]="compareToCurrentDate(competition.date || this.currentDate.toLocaleDateString() , competition.startTime || currentDate.toLocaleTimeString(),competition.endTime || currentDate.toLocaleTimeString())">
+                    <span *ngSwitchCase="'Coming soon'" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
+                        Coming Soon
+                    </span>
+                    <span *ngSwitchCase="'Passed'" class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                        Passed
+                    </span>
+                    <span *ngSwitchCase="'Active'" class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                        Active
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    {{competition.numberOfParticipants}}
+                </td>
+                <td class="px-6 py-4">
+                    {{competition.location }}
+                </td>
+                <td class="px-6 py-4">
+                    {{competition.amount }} DH
+                </td>
+                <td class="px-6 py-4">
+                    <button data-modal-target="enroll-modal" data-modal-toggle="enroll-modal" (click)="prepareMemberEnroll(competition.id ?? -1)" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                        <span  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            Enroll a member
+                        </span>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        </tbody>
+    </table>
+</div>
+<div id="competition-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add member
+                </h3>
+                <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="competition-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" action="#">
+                    <h4 >Competition Information</h4>
+                    <div>
+                        <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                        <input type="date" name="date" id="date" [(ngModel)]="newCompetition.date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                    </div>
+                    <div>
+                        <label for="startTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Time</label>
+                        <input type="time" min="00:00:00" max="23:59:00" step="1" name="startTime" id="startTime" [(ngModel)]="newCompetition.startTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                    </div>
+                    <div>
+                        <label for="endTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Time</label>
+                        <input type="time" min="00:00" max="23:59" step="1" name="endTime" id="endTime" [(ngModel)]="newCompetition.endTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                    </div>
+                    <div>
+                        <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                        <input [(ngModel)]="newCompetition.location" type="text" name="location" id="location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Belfaa" required>
+                    </div>
+                    <div>
+                        <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                        <input [(ngModel)]="newCompetition.amount" type="number" min="0" name="amount" id="amount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="999" required>
+                    </div>
+                    <button (click)="this.addCompetition()" type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-hide="competition-modal">Add competition</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="enroll-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Enroll a member
+                </h3>
+                <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="enroll-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" action="#">
+                    <h4 >Member Information</h4>
+                    <div>
+                        <label for="memberNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Member number</label>
+                        <input type="number" id="memberNumber" name="memberNumber"  [(ngModel)]="memberCodeToEnroll.id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                    </div>
+                    <div>
+                        <small>Not registred yet ? <a data-modal-hide="enroll-modal" class="cursor-pointer underline" routerLink="../members">add member</a></small>
+                    </div>
+                    <button (click)="enrollInCompetition()" type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-hide="enroll-modal">Add competition</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

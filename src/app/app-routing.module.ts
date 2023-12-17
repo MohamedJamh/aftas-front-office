@@ -13,8 +13,9 @@ import {
 } from "./components/services/rental/equipment-selection/equipment-selection.component";
 import {RentValidationComponent} from "./components/services/rental/rent-validation/rent-validation.component";
 import {OrdersComponent} from "./components/dashboard/orders/orders.component";
-import {OffersComponent} from "./components/dashboard/offers/offers.component";
+import {CompetitionsComponent} from "./components/dashboard/competitions/competitions.component";
 import {ReservationsComponent} from "./components/dashboard/reservations/reservations.component";
+import {HomeDashboardComponent} from "./components/dashboard/home-dashboard/home-dashboard.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,11 +38,12 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
+      {path: '', component: HomeDashboardComponent},
       {path: 'members', component: MembersComponent},
       {path: 'levels', component: LevelsComponent},
       {path: 'fishes', component: FishesComponent},
+      {path: 'competitions', component: CompetitionsComponent},
       {path: 'orders', component: OrdersComponent},
-      {path: 'offers', component: OffersComponent},
       {path: 'reservation', component: ReservationsComponent},
     ]
   }

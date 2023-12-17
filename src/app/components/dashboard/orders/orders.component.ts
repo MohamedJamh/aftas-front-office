@@ -4,8 +4,8 @@ import {HttpResponse} from "@angular/common/http";
 import {Response} from "../../../core/models/Response";
 import {OrderService} from "../../../core/services/OrderService";
 import {EquipmentItem} from "../../../core/models/IEquipmentItem";
-import {Offer} from "../../../core/models/IOffer";
-import {OfferService} from "../../../core/services/OfferService";
+import {Competition} from "../../../core/models/ICompetition";
+import {CompetitionService} from "../../../core/services/CompetitionService";
 
 @Component({
   selector: 'app-orders',
@@ -15,9 +15,9 @@ import {OfferService} from "../../../core/services/OfferService";
 export class OrdersComponent implements OnInit {
 
   orders : Order[] = [];
-  newOffer : Offer = new Offer();
+  // newOffer : Offer = new Offer();
 
-  constructor(private orderService : OrderService,private offerService : OfferService) { }
+  constructor(private orderService : OrderService,private offerService : CompetitionService) { }
 
   ngOnInit(): void {
     this.orderService.gelAllOrders()
@@ -35,20 +35,20 @@ export class OrdersComponent implements OnInit {
         return equipmentItem.id!;
     }
 
-    provideOffer(order: Order) {
-      this.newOffer.orderId = order.id;
-      this.newOffer.negotiable = true;
-      if(order.orderEquipment){
-        this.newOffer.orderEquipments = order.orderEquipment;
-      }
-    }
-
-    createOffer() {
-        this.offerService.creatOffer(this.newOffer)
-            .subscribe((response : HttpResponse<Response<Offer>>) => {
-                if( [200].includes(response.status) && response.body?.result){
-                    alert(response.body.message)
-                }
-            })
-    }
+    // provideOffer(order: Order) {
+    //   this.newOffer.orderId = order.id;
+    //   this.newOffer.negotiable = true;
+    //   if(order.orderEquipment){
+    //     this.newOffer.orderEquipments = order.orderEquipment;
+    //   }
+    // }
+    //
+    // createOffer() {
+    //     this.offerService.createCompetition(this.newOffer)
+    //         .subscribe((response : HttpResponse<Response<Offer>>) => {
+    //             if( [200].includes(response.status) && response.body?.result){
+    //                 alert(response.body.message)
+    //             }
+    //         })
+    // }
 }

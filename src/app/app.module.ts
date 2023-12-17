@@ -19,8 +19,10 @@ import { CalendarComponent } from './components/services/rental/calendar/calenda
 import { EquipmentSelectionComponent } from './components/services/rental/equipment-selection/equipment-selection.component';
 import { RentValidationComponent } from './components/services/rental/rent-validation/rent-validation.component';
 import { OrdersComponent } from './components/dashboard/orders/orders.component';
-import { OffersComponent } from './components/dashboard/offers/offers.component';
+import { CompetitionsComponent } from './components/dashboard/competitions/competitions.component';
 import { ReservationsComponent } from './components/dashboard/reservations/reservations.component';
+import { HomeDashboardComponent } from './components/dashboard/home-dashboard/home-dashboard.component';
+import { CountdownTimerModule } from 'angular-countdown-timer';
 
 @NgModule({
   declarations: [
@@ -39,14 +41,16 @@ import { ReservationsComponent } from './components/dashboard/reservations/reser
     EquipmentSelectionComponent,
     RentValidationComponent,
     OrdersComponent,
-    OffersComponent,
-    ReservationsComponent
+    CompetitionsComponent,
+    ReservationsComponent,
+    HomeDashboardComponent
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        CountdownTimerModule.forRoot()
     ],
   providers: [
   ],
