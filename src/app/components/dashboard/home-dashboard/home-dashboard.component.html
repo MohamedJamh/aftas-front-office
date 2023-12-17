@@ -1,1 +1,50 @@
-<p>home-dashboard works!</p>
+<app-loader *ngIf="upcomingCompetitions.length == 0 "></app-loader>
+<div *ngIf="upcomingCompetitions.length != 0">
+  <div *ngIf="noCompetitionToday() ; else todaysCompetition" class="min-h-screen pt-20">
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-center gap-5">
+        <section class="px-2">
+          <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900">Oops No Fishing today</h1>
+            <p class="mt-3 text-lg text-gray-500">Upcoming upcomingCompetitions[0] in {{getCompetitionDifferenceDays(upcomingCompetitions[0].date ?? '')}}</p>
+          </div>
+        </section>
+        <section class="px-2">
+          <img class="h-44 w-44" src="./assets/img/sadfish.png">
+        </section>
+      </div>
+    </div>
+  </div>
+  <ng-template #todaysCompetition>
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-center gap-5">
+        <section class="px-2">
+          <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900">Today's Competition</h1>
+            <div class="px-6 py-4" [ngSwitch]="competitionService.compareCompetitionToCurrentDateTime(currentDate,upcomingCompetitions[0].date || this.currentDate.toLocaleDateString() , upcomingCompetitions[0].startTime || currentDate.toLocaleTimeString(),upcomingCompetitions[0].endTime || currentDate.toLocaleTimeString())">
+                  <span *ngSwitchCase="'Coming soon'" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
+                      Coming Soon
+                  </span>
+              <span *ngSwitchCase="'Passed'" class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                      Passed
+                  </span>
+              <span *ngSwitchCase="'Active'" class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                      Active
+                  </span>
+            </div>
+            <p class="mt-3 text-lg text-gray-500">Code : <small class="font-medium">{{upcomingCompetitions[0].code}}</small></p>
+            <p class="mt-3 text-lg text-gray-500">Location : <small  class="font-medium">{{upcomingCompetitions[0].location}}</small></p>
+            <p class="mt-3 text-lg text-gray-500">Participants : <small  class="font-medium">{{upcomingCompetitions[0].numberOfParticipants}}</small></p>
+            <p class="mt-3 text-lg text-gray-500">Date : <small class="font-medium">{{upcomingCompetitions[0].date | date:'EEEE, MMMM d, y'}}</small></p>
+            <p class="mt-3 text-lg text-gray-500">Starts at : <small class="font-medium">{{upcomingCompetitions[0].startTime }}</small></p>
+            <p class="mt-3 text-lg text-gray-500">Ends at : <small class="font-medium">{{upcomingCompetitions[0].endTime }}</small></p>
+          </div>
+        </section>
+        <section class="px-2">
+          <img class="h-44 w-44" src="./assets/img/happyfish.png">
+        </section>
+      </div>
+    </div>
+  </ng-template>
+</div>
+

@@ -10,7 +10,7 @@ import {Order} from "../models/IOrder";
 })
 export class CompetitionService {
 
-    constructor(private httpClient : HttpClient,private envService : EnvService) { }
+  constructor(private httpClient : HttpClient,private envService : EnvService) { }
 
 
     getAllCompetitions(): Observable<HttpResponse<Response<Competition[]>>>{
@@ -52,5 +52,32 @@ export class CompetitionService {
           return new Observable<HttpResponse<Response<null>>>();
         })
       )
+  }
+
+  upcomingCompetitions(): Observable<HttpResponse<Response<Competition[]>>> {
+    return this.httpClient.get<Response<Competition[]>>(this.envService.apiUrl + "/competitions/upcoming",  {observe : 'response'})
+      .pipe(
+        catchError((httpResponse) => {
+          let errorMessage : string = httpResponse.error.message + "\n";
+          for (let err of httpResponse.error.errors) {
+            errorMessage += err.message + "\n";
+          }
+          alert(errorMessage)
+          return new Observable<HttpResponse<Response<Competition[]>>>();
+        })
+      )
+  }
+
+
+  compareCompetitionToCurrentDateTime(currentDate : Date, competitionDate : string , competitionStartTime : string, competitionEndTime : string) : string {
+    let starDateTimeToCompare = new Date(competitionDate + " " + competitionStartTime)
+    let endDateTimeToCompare = new Date(competitionDate + " " + competitionEndTime)
+    if(endDateTimeToCompare < currentDate){
+      return "Passed"
+    }else if(starDateTimeToCompare <= currentDate &&  currentDate <= endDateTimeToCompare) {
+      return "Active"
+    }else {
+      return "Coming soon"
+    }
   }
 }

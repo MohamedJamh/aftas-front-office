@@ -18,7 +18,7 @@ export class CompetitionsComponent implements OnInit {
   competitionIdToEnroll : number = -1;
   memberCodeToEnroll: Member = new Member();
 
-  constructor(private competitionService : CompetitionService) { }
+  constructor(protected competitionService : CompetitionService) { }
 
   ngOnInit(): void {
     this.competitionService.getAllCompetitions()
@@ -42,17 +42,6 @@ export class CompetitionsComponent implements OnInit {
         });
     }
 
-    compareToCurrentDate(date : string , startTime : string, endTime : string) : string {
-        let starDateTimeToCompare = new Date(date + " " + startTime)
-        let endDateTimeToCompare = new Date(date + " " + endTime)
-        if(endDateTimeToCompare < this.currentDate){
-            return "Passed"
-        }else if(starDateTimeToCompare <= this.currentDate &&  this.currentDate <= endDateTimeToCompare) {
-            return "Active"
-        }else {
-            return "Coming soon"
-        }
-    }
 
     enrollInCompetition( ) {
         this.competitionService.competitionEnroll(this.competitionIdToEnroll, this.memberCodeToEnroll.id ?? -1).subscribe((response : HttpResponse<Response<null>>) => {

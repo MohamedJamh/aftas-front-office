@@ -58,7 +58,7 @@
                 <td class="px-6 py-4">
                     {{competition.endTime}}
                 </td>
-                <td class="px-6 py-4" [ngSwitch]="compareToCurrentDate(competition.date || this.currentDate.toLocaleDateString() , competition.startTime || currentDate.toLocaleTimeString(),competition.endTime || currentDate.toLocaleTimeString())">
+                <td class="px-6 py-4" [ngSwitch]="competitionService.compareCompetitionToCurrentDateTime(currentDate,competition.date || this.currentDate.toLocaleDateString() , competition.startTime || currentDate.toLocaleTimeString(),competition.endTime || currentDate.toLocaleTimeString())">
                     <span *ngSwitchCase="'Coming soon'" class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
                         Coming Soon
                     </span>

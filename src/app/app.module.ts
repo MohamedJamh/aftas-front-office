@@ -22,7 +22,6 @@ import { OrdersComponent } from './components/dashboard/orders/orders.component'
 import { CompetitionsComponent } from './components/dashboard/competitions/competitions.component';
 import { ReservationsComponent } from './components/dashboard/reservations/reservations.component';
 import { HomeDashboardComponent } from './components/dashboard/home-dashboard/home-dashboard.component';
-import { CountdownTimerModule } from 'angular-countdown-timer';
 
 @NgModule({
   declarations: [
@@ -43,14 +42,14 @@ import { CountdownTimerModule } from 'angular-countdown-timer';
     OrdersComponent,
     CompetitionsComponent,
     ReservationsComponent,
-    HomeDashboardComponent
+    HomeDashboardComponent,
+
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
-        CountdownTimerModule.forRoot()
     ],
   providers: [
   ],
