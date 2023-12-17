@@ -1,12 +1,12 @@
-<app-loader *ngIf="upcomingCompetitions.length == 0 "></app-loader>
-<div *ngIf="upcomingCompetitions.length != 0">
+<app-loader *ngIf="isLoading()"></app-loader>
+<div *ngIf=" ! isLoading()">
   <div *ngIf="noCompetitionToday() ; else todaysCompetition" class="min-h-screen pt-20">
     <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-center gap-5">
         <section class="px-2">
           <div class="text-center">
             <h1 class="text-4xl font-extrabold text-gray-900">Oops No Fishing today</h1>
-            <p class="mt-3 text-lg text-gray-500">Upcoming upcomingCompetitions[0] in {{getCompetitionDifferenceDays(upcomingCompetitions[0].date ?? '')}}</p>
+            <p class="mt-3 text-lg text-gray-500">Upcoming Competition in {{getClosestCompetitionDifferenceDays()}}</p>
           </div>
         </section>
         <section class="px-2">
@@ -45,6 +45,44 @@
         </section>
       </div>
     </div>
+    <div class="flex justify-between">
+      <h2>Real Time Score</h2>
+    </div>
+    <app-loader *ngIf="competitionRealTimeScore.length == 0; else realTimeScore"></app-loader>
+    <ng-template #realTimeScore>
+      <table>
+        <tbody>
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              Number
+            </th>
+            <th scope="col" class="px-6 py-3">
+              First Name
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Last Name
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Score
+            </th>
+          </tr>
+        </tbody>
+          <tr *ngFor="let memberScore of competitionRealTimeScore" class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{ memberScore.number}}
+            </th>
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{ memberScore.firstName}}
+            </th>
+            <td class="px-6 py-4">
+              {{memberScore.lastName}}
+            </td>
+            <td class="px-6 py-4">
+              {{memberScore.score}}
+            </td>
+          </tr>
+      </table>
+    </ng-template>
   </ng-template>
 </div>
 

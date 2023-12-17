@@ -3,6 +3,7 @@ import {CompetitionService} from "../../../core/services/CompetitionService";
 import {Competition} from "../../../core/models/ICompetition";
 import {HttpResponse} from "@angular/common/http";
 import {Response} from "../../../core/models/Response";
+import {Rank} from "../../../core/models/Irank";
 
 @Component({
   selector: 'app-home-dashboard',
@@ -13,6 +14,8 @@ export class HomeDashboardComponent implements OnInit {
 
   currentDate : Date = new Date();
   upcomingCompetitions : Competition[] = [];
+  competitionRealTimeScore: Rank[] = [];
+  loading : boolean = true;
 
   constructor(protected competitionService : CompetitionService) { }
 
@@ -20,19 +23,26 @@ export class HomeDashboardComponent implements OnInit {
     this.competitionService.upcomingCompetitions().subscribe((response : HttpResponse<Response<Competition[]>>) => {
         if( [200].includes(response.status) && response.body?.result){
           this.upcomingCompetitions = response.body.result;
+          this.loading = false;
         }
       }
     )
   }
 
   noCompetitionToday() : boolean {
+    if(this.upcomingCompetitions.length == 0) return true;
     let closestCompetitionDate = new Date(this.upcomingCompetitions[0].date!)
     return closestCompetitionDate.toLocaleDateString() != this.currentDate.toLocaleDateString()
   }
 
-  getCompetitionDifferenceDays(competitionDate : string) : string {
-    let competitionDateToCompare = new Date(competitionDate)
+  getClosestCompetitionDifferenceDays() : string {
+    if(this.upcomingCompetitions.length == 0) return "Who knows? :/"
+    let competitionDateToCompare = new Date(this.upcomingCompetitions[0].date!)
     let difference = competitionDateToCompare.getTime() - this.currentDate.getTime()
     return Math.ceil(difference / (1000 * 3600 * 24)) + " Day(s)";
   }
+
+    isLoading() {
+        return this.loading;
+    }
 }
