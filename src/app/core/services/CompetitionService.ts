@@ -86,16 +86,6 @@ export class CompetitionService {
 
   competitionRealTimeScore(competitionId : number): Observable<HttpResponse<Response<Rank[]>>> {
     return this.httpClient.get<Response<Rank[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/real-time-score",  {observe : 'response'})
-      .pipe(
-        catchError((httpResponse) => {
-          let errorMessage : string = httpResponse.error.message + "\n";
-          for (let err of httpResponse.error.errors) {
-            errorMessage += err.message + "\n";
-          }
-          alert(errorMessage)
-          return new Observable<HttpResponse<Response<Rank[]>>>();
-        })
-      )
   }
 
 

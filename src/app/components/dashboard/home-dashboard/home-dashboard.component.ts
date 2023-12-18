@@ -8,6 +8,7 @@ import {Fish} from "../../../core/models/Ifish";
 import {Member} from "../../../core/models/Member";
 import {FishService} from "../../../core/services/FishService";
 import {HuntingService} from "../../../core/services/hunting-service";
+import {RankingService} from "../../../core/services/ranking-service";
 
 @Component({
   selector: 'app-home-dashboard',
@@ -31,8 +32,13 @@ export class HomeDashboardComponent implements OnInit {
     competitionId : undefined,
     fish : new Fish()
   }
+  competitionRankings: Rank[] = [];
 
-  constructor(protected competitionService : CompetitionService,private fishService : FishService, private huntingService : HuntingService ) { }
+  constructor(protected competitionService : CompetitionService,
+              private fishService : FishService,
+              private huntingService : HuntingService,
+              private rankingService : RankingService
+  ) { }
 
   ngOnInit(): void {
     this.competitionService.upcomingCompetitions().subscribe((response : HttpResponse<Response<Competition[]>>) => {
@@ -40,6 +46,7 @@ export class HomeDashboardComponent implements OnInit {
           this.upcomingCompetitions = response.body.result;
           this.loading = false;
           if( ! this.noCompetitionToday()){
+            this.refreshScore()
             this.newHunt.competitionId = this.upcomingCompetitions[0].id
             this.getCompetitionMembers()
             this.getFishes()
@@ -95,6 +102,14 @@ export class HomeDashboardComponent implements OnInit {
       if( [200,201].includes(response.status) && response.body?.result){
         alert(response.body.message)
         this.refreshScore()
+      }
+    })
+  }
+
+  getRankings() {
+    this.rankingService.getRankings(this.upcomingCompetitions[0].id!).subscribe((response : HttpResponse<Response<Rank[]>>) => {
+      if( [200].includes(response.status) && response.body?.result){
+        this.competitionRankings = response.body.result;
       }
     })
   }

@@ -4,6 +4,8 @@ import {CompetitionService} from "../../../core/services/CompetitionService";
 import {Response} from "../../../core/models/Response";
 import {HttpResponse} from "@angular/common/http";
 import {Member} from "../../../core/models/Member";
+import {Rank} from "../../../core/models/Irank";
+import {RankingService} from "../../../core/services/ranking-service";
 
 @Component({
   selector: 'app-competitions',
@@ -17,8 +19,9 @@ export class CompetitionsComponent implements OnInit {
   currentDate : Date = new Date();
   competitionIdToEnroll : number = -1;
   memberCodeToEnroll: Member = new Member();
+  competitionRankings: Rank[] = [];
 
-  constructor(protected competitionService : CompetitionService) { }
+  constructor(protected competitionService : CompetitionService,private rankingService : RankingService) { }
 
   ngOnInit(): void {
     this.competitionService.getAllCompetitions()
@@ -55,4 +58,15 @@ export class CompetitionsComponent implements OnInit {
     prepareMemberEnroll(id: number ) {
         this.competitionIdToEnroll = id;
     }
+
+  getRankings(competitionId : number) {
+    this.rankingService.getRankings(competitionId).subscribe((response : HttpResponse<Response<Rank[]>>) => {
+          if( [200,201].includes(response.status) && response.body?.result){
+            this.competitionRankings = response.body.result;
+          }else {
+            this.competitionRankings = [];
+          }
+        }
+    )
+  }
 }
