@@ -5,6 +5,8 @@ import {catchError, Observable} from "rxjs";
 import {Response} from "../models/Response";
 import {Competition} from "../models/ICompetition";
 import {Order} from "../models/IOrder";
+import {Rank} from "../models/Irank";
+import {Member} from "../models/Member";
 @Injectable({
     providedIn: 'root'
 })
@@ -64,6 +66,34 @@ export class CompetitionService {
           }
           alert(errorMessage)
           return new Observable<HttpResponse<Response<Competition[]>>>();
+        })
+      )
+  }
+
+  getCompetitionMembers(competitionId : number): Observable<HttpResponse<Response<Member[]>>> {
+    return this.httpClient.get<Response<Member[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/members",  {observe : 'response'})
+      .pipe(
+        catchError((httpResponse) => {
+          let errorMessage : string = httpResponse.error.message + "\n";
+          for (let err of httpResponse.error.errors) {
+            errorMessage += err.message + "\n";
+          }
+          alert(errorMessage)
+          return new Observable<HttpResponse<Response<Member[]>>>();
+        })
+      )
+  }
+
+  competitionRealTimeScore(competitionId : number): Observable<HttpResponse<Response<Rank[]>>> {
+    return this.httpClient.get<Response<Rank[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/real-time-score",  {observe : 'response'})
+      .pipe(
+        catchError((httpResponse) => {
+          let errorMessage : string = httpResponse.error.message + "\n";
+          for (let err of httpResponse.error.errors) {
+            errorMessage += err.message + "\n";
+          }
+          alert(errorMessage)
+          return new Observable<HttpResponse<Response<Rank[]>>>();
         })
       )
   }

@@ -7,7 +7,7 @@ export interface IMember{
     lastName?: string;
     accessionDate?: Date;
     nationality?: string;
-  identityType?: string;
+    identityType?: string;
     identityNumber?: string;
 }
 
