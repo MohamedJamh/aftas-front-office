@@ -1,9 +1,0 @@
-<div class="p-5">
-    <div class="container mx-auto">
-        <h1 class="text-2xl font-bold">Rental Hive Main Services</h1>
-        <p>Here are the main services that Rental Hive offers choose what suits you and become a partner now !</p>
-        <div class="flex justify-around gap-4 py-5">
-            <app-card *ngFor="let service of ourServices" [routerLink]="service.link" [title]="service.title" [description]="service.description"></app-card>
-        </div>
-    </div>
-</div>

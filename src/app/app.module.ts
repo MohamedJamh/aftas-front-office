@@ -12,15 +12,8 @@ import { LoaderComponent } from './components/shared/loader/loader.component';
 import {FormsModule} from "@angular/forms";
 import { LevelsComponent } from './components/dashboard/levels/levels.component';
 import { FishesComponent } from './components/dashboard/fishes/fishes.component';
-import { ServicesComponent } from './components/services/services.component';
 import { CardComponent } from './components/shared/card/card.component';
-import { RentalComponent } from './components/services/rental/rental.component';
-import { CalendarComponent } from './components/services/rental/calendar/calendar.component';
-import { EquipmentSelectionComponent } from './components/services/rental/equipment-selection/equipment-selection.component';
-import { RentValidationComponent } from './components/services/rental/rent-validation/rent-validation.component';
-import { OrdersComponent } from './components/dashboard/orders/orders.component';
 import { CompetitionsComponent } from './components/dashboard/competitions/competitions.component';
-import { ReservationsComponent } from './components/dashboard/reservations/reservations.component';
 import { HomeDashboardComponent } from './components/dashboard/home-dashboard/home-dashboard.component';
 
 @NgModule({
@@ -33,15 +26,8 @@ import { HomeDashboardComponent } from './components/dashboard/home-dashboard/ho
     LoaderComponent,
     LevelsComponent,
     FishesComponent,
-    ServicesComponent,
     CardComponent,
-    RentalComponent,
-    CalendarComponent,
-    EquipmentSelectionComponent,
-    RentValidationComponent,
-    OrdersComponent,
     CompetitionsComponent,
-    ReservationsComponent,
     HomeDashboardComponent,
 
   ],
