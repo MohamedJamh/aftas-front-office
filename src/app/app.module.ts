@@ -15,6 +15,9 @@ import { FishesComponent } from './components/dashboard/fishes/fishes.component'
 import { CardComponent } from './components/shared/card/card.component';
 import { CompetitionsComponent } from './components/dashboard/competitions/competitions.component';
 import { HomeDashboardComponent } from './components/dashboard/home-dashboard/home-dashboard.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { SiginComponent } from './components/auth/signin/sigin.component';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -29,14 +32,17 @@ import { HomeDashboardComponent } from './components/dashboard/home-dashboard/ho
     CardComponent,
     CompetitionsComponent,
     HomeDashboardComponent,
+    AuthComponent,
+    SiginComponent,
 
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        FormsModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    NgOptimizedImage,
+  ],
   providers: [
   ],
   bootstrap: [AppComponent]
