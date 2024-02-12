@@ -23,45 +23,15 @@ export class MemberService {
       fetchEndpoint += "?pageNo=" + pageNo
     }
     return this.httpClient.get<Response<MemberPagination>>(this.envService.apiUrl + fetchEndpoint, {observe : 'response'})
-        .pipe(
-            catchError((httpResponse) => {
-              let errorMessage : string = httpResponse.error.message + "\n";
-              for (let err of httpResponse.error.errors) {
-                errorMessage += err.message + "\n";
-              }
-              alert(errorMessage)
-              return new Observable<HttpResponse<Response<MemberPagination>>>();
-            })
-        )
   }
 
     addMember(member : Member): Observable<HttpResponse<Response<Member>>> {
       return this.httpClient.post<Response<Member>>(this.envService.apiUrl + "/members", member, {observe : 'response'})
-          .pipe(
-              catchError((httpResponse) => {
-                let errorMessage : string = httpResponse.error.message + "\n";
-                for (let err of httpResponse.error.errors) {
-                  errorMessage += err.message + "\n";
-                }
-                alert(errorMessage)
-                return new Observable<HttpResponse<Response<Member>>>();
-              })
-          )
     }
 
     searchMember(searchValue: string) {
       let params = new HttpParams()
             .set('value',searchValue)
         return this.httpClient.get<Response<MemberPagination>>(this.envService.apiUrl + "/members/search", {observe : 'response', params : params})
-            .pipe(
-                catchError((httpResponse) => {
-                    let errorMessage : string = httpResponse.error.message + "\n";
-                    for (let err of httpResponse.error.errors) {
-                        errorMessage += err.message + "\n";
-                    }
-                    alert(errorMessage)
-                    return new Observable<HttpResponse<Response<MemberPagination>>>();
-                })
-            )
     }
 }

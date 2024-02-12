@@ -13,17 +13,5 @@ export class HuntingService {
 
   registerHunt(hunt : any){
     return this.httpClient.post<Response<any>>(this.envService.apiUrl + "/hunts/register", hunt, {observe : 'response'})
-      .pipe(
-        catchError((httpResponse) => {
-          let errorMessage : string = httpResponse.error.message + "\n";
-          if(httpResponse.error.errors != undefined ) {
-            for (let err of httpResponse.error.errors) {
-              errorMessage += err.message + "\n";
-            }
-          }
-          alert(errorMessage)
-          return new Observable<HttpResponse<Response<any>>>();
-        })
-      )
   }
 }

@@ -6,6 +6,7 @@ import {User} from "../../../core/models/IUser";
 import {HttpResponse} from "@angular/common/http";
 import {Auth} from "../../../core/models/IAuth";
 import {Response} from "../../../core/models/Response";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-signin',
@@ -46,15 +47,13 @@ export class SiginComponent implements OnInit {
       'email': email,
       'password': password
     } as User;
-    this.authService.signin(user).subscribe((response : HttpResponse<Response<Auth>>) => {
+    this.authService.signIn(user)
+      .subscribe((response : HttpResponse<Response<Auth>>) => {
       if([200].includes(response.status) && response.body?.result){
-        alert("yes yes")
-        console.log(response.body?.result.accessToken);
+        alert("signin successful!")
         localStorage.setItem('aftasacctoken', response.body?.result.accessToken!);
         localStorage.setItem('aftasreftoken', response.body?.result.refreshToken!);
         this._router.navigate(['/dashboard']);
-      }else {
-        alert(response.body?.message);
       }
     });
   }

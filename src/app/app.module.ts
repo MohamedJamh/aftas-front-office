@@ -19,6 +19,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { SiginComponent } from './components/auth/signin/sigin.component';
 import {NgOptimizedImage} from "@angular/common";
 import {JwtInterceptor} from "./core/intreceptors/JwtInterceptor";
+import {ErrorInterceptor} from "./core/intreceptors/ErrorInterceptor";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {JwtInterceptor} from "./core/intreceptors/JwtInterceptor";
     ReactiveFormsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

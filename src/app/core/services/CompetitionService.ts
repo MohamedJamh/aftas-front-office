@@ -44,44 +44,14 @@ export class CompetitionService {
 
   competitionEnroll(competitionIdToEnroll: number, memberId: number): Observable<HttpResponse<Response<null>>> {
     return this.httpClient.get<Response<null>>(this.envService.apiUrl + "/competitions/" + competitionIdToEnroll + "/enroll/" + memberId,  {observe : 'response'})
-      .pipe(
-        catchError((httpResponse) => {
-          let errorMessage : string = httpResponse.error.message + "\n";
-          for (let err of httpResponse.error.errors) {
-            errorMessage += err.message + "\n";
-          }
-          alert(errorMessage)
-          return new Observable<HttpResponse<Response<null>>>();
-        })
-      )
   }
 
   upcomingCompetitions(): Observable<HttpResponse<Response<Competition[]>>> {
     return this.httpClient.get<Response<Competition[]>>(this.envService.apiUrl + "/competitions/upcoming",  {observe : 'response'})
-      .pipe(
-        catchError((httpResponse) => {
-          let errorMessage : string = httpResponse.error.message + "\n";
-          for (let err of httpResponse.error.errors) {
-            errorMessage += err.message + "\n";
-          }
-          alert(errorMessage)
-          return new Observable<HttpResponse<Response<Competition[]>>>();
-        })
-      )
   }
 
   getCompetitionMembers(competitionId : number): Observable<HttpResponse<Response<Member[]>>> {
     return this.httpClient.get<Response<Member[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/members",  {observe : 'response'})
-      .pipe(
-        catchError((httpResponse) => {
-          let errorMessage : string = httpResponse.error.message + "\n";
-          for (let err of httpResponse.error.errors) {
-            errorMessage += err.message + "\n";
-          }
-          alert(errorMessage)
-          return new Observable<HttpResponse<Response<Member[]>>>();
-        })
-      )
   }
 
   competitionRealTimeScore(competitionId : number): Observable<HttpResponse<Response<Rank[]>>> {
