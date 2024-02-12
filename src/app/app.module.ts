@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MembersComponent } from './components/dashboard/members/members.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { LoaderComponent } from './components/shared/loader/loader.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LevelsComponent } from './components/dashboard/levels/levels.component';
 import { FishesComponent } from './components/dashboard/fishes/fishes.component';
 import { CardComponent } from './components/shared/card/card.component';
@@ -18,6 +18,7 @@ import { HomeDashboardComponent } from './components/dashboard/home-dashboard/ho
 import { AuthComponent } from './components/auth/auth.component';
 import { SiginComponent } from './components/auth/signin/sigin.component';
 import {NgOptimizedImage} from "@angular/common";
+import {JwtInterceptor} from "./core/intreceptors/JwtInterceptor";
 
 @NgModule({
   declarations: [
@@ -33,8 +34,7 @@ import {NgOptimizedImage} from "@angular/common";
     CompetitionsComponent,
     HomeDashboardComponent,
     AuthComponent,
-    SiginComponent,
-
+    SiginComponent
   ],
   imports: [
     BrowserModule,
@@ -42,8 +42,10 @@ import {NgOptimizedImage} from "@angular/common";
     HttpClientModule,
     FormsModule,
     NgOptimizedImage,
+    ReactiveFormsModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
