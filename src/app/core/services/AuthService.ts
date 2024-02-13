@@ -14,14 +14,7 @@ export class AuthService {
 
   private readonly endpointPrefix = '/auth';
   constructor(private httpClient: HttpClient, private envService: EnvService) {}
-
-  Signup(newUser: User): Observable<HttpResponse<Response<Auth>>> {
-    console.log("new user added")
-    console.log(newUser)
-    return this.httpClient.post<HttpResponse<Response<Auth>>>(this.envService.apiUrl + this.endpointPrefix + '/signup', newUser, {observe: 'body'});
-  }
-
-  signin(userCredentials: User): Observable<HttpResponse<Response<Auth>>> {
+  signIn(userCredentials: User): Observable<HttpResponse<Response<Auth>>> {
     return this.httpClient.post<Response<Auth>>(this.envService.apiUrl + this.endpointPrefix + '/signin',
       {
         email: userCredentials.email,
@@ -31,6 +24,20 @@ export class AuthService {
         observe: 'response'
       }
     );
+  }
+
+  refreshToken(): Observable<HttpResponse<Response<Auth>>> {
+    return this.httpClient.post<Response<Auth>>(this.envService.apiUrl + this.endpointPrefix + '/refresh-token',
+{
+      refreshToken: localStorage.getItem('aftasreftoken')
+    },
+{observe: 'response'}
+    );
+  }
+
+  signOut(): void {
+    localStorage.removeItem('aftasacctoken');
+    localStorage.removeItem('aftasreftoken');
   }
 
 }
