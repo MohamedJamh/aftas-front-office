@@ -7,6 +7,8 @@ import {HttpResponse} from "@angular/common/http";
 import {Auth} from "../../../core/models/IAuth";
 import {Response} from "../../../core/models/Response";
 import {first} from "rxjs";
+import {UserService} from "../../../core/services/UserService";
+import {CryptoService} from "../../../core/services/CryptoService";
 
 @Component({
   selector: 'app-signin',
@@ -21,7 +23,9 @@ export class SiginComponent implements OnInit {
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly _router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService,
+    private cryptoService: CryptoService
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +38,6 @@ export class SiginComponent implements OnInit {
   get formControls() {
     return this.form.controls;
   }
-
 
   onSubmit() {
     this.submitted = true;
@@ -50,10 +53,22 @@ export class SiginComponent implements OnInit {
     this.authService.signIn(user)
       .subscribe((response : HttpResponse<Response<Auth>>) => {
       if([200].includes(response.status) && response.body?.result){
-        alert("signin successful!")
+        alert("sign-in successful!")
         localStorage.setItem('aftasacctoken', response.body?.result.accessToken!);
         localStorage.setItem('aftasreftoken', response.body?.result.refreshToken!);
-        this._router.navigate(['/dashboard']);
+
+        this.userService.profile()
+          .pipe(first())
+          .subscribe((response : HttpResponse<Response<User>>) => {
+            if([200].includes(response.status) && response.body?.result){
+              alert("profile fetched successfully!")
+              const encryptedUser : string = this.cryptoService.encrypt(JSON.stringify(response.body?.result));
+              localStorage.setItem('aftasuser', encryptedUser);
+              this._router.navigate(['/dashboard']);
+            }
+        });
+      }else {
+        alert("sign-in failed!")
       }
     });
   }

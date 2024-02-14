@@ -18,7 +18,9 @@ export class User implements IUser {
               public personalEmail? : string,
               public password? : string,
               public organizationName? : string,
-              public roles? : Role[]
+              public roles? : Role[],
+              public rolePermissions?: string[],
+              public permissionGroupPermissions?: string[]
   ){}
 
   setId(id: number): void {

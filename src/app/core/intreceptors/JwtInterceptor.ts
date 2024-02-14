@@ -19,27 +19,41 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService : AuthService, private readonly _router: Router,) {}
   private countError : number = 0
   intercept( request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if(request.url.includes('auth')) return next.handle(request);
 
-    let token : string | null = localStorage.getItem("aftasacctoken");
-    if (token && ! request.url.includes("auth") ) {
+    let accessToken : string | null = localStorage.getItem("aftasacctoken");
+    let refToken : string | null = localStorage.getItem("aftasreftoken");
+
+    if(
+      (accessToken == null && localStorage.getItem("aftasreftoken") == null ) ||
+      (localStorage.getItem("aftasuser") == null && ! request.url.includes('profile') )
+    ){
+      this.timeOutSession()
+    }
+
+
+    if (accessToken) {
       request = request.clone({
         setHeaders: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${accessToken}`
         }
       });
-    }
+    } else this.handle401Error(request, next);
 
     return next.handle(request).pipe(
       catchError((err:HttpErrorResponse) => {
+        //handle 401 error
         if(err.status === 401 && this.countError != 1){
           this.countError++;
           this.handle401Error(request, next);
-        }else if(this.countError === 1){
-          localStorage.removeItem('aftasacctoken');
-          localStorage.removeItem('aftasreftoken');
-          this.countError = 0;
-          alert("You are not authorized to access this resource")
-          this._router.navigate(['/auth']);
+        }
+        //handle access token and refresh token broken
+        else if(this.countError === 1){
+          this.timeOutSession()
+        }
+        //handle other errors
+        else{
+          this.handleOtherError(err)
         }
         throw err;
       })
@@ -47,7 +61,6 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    debugger
     this.authService.refreshToken().subscribe((response: HttpResponse<Response<Auth>>) => {
         if([200].includes(response.status) && response.body?.result){
           alert("new acc token")
@@ -55,6 +68,19 @@ export class JwtInterceptor implements HttpInterceptor {
           this._router.navigate(['/dashboard']);
         }
     });
+  }
+
+  private timeOutSession(){
+    this.authService.signOut();
+    this._router.navigate(['/auth']);
+  }
+
+  private handleOtherError(err:HttpErrorResponse){
+    let errorMessage : string = err.error.message + "\n";
+    for (let error of err.error.errors) {
+        errorMessage += error.message + "\n";
+    }
+    alert(errorMessage)
   }
 
 }

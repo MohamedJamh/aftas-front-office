@@ -19,15 +19,15 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept( request: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<Response<any>>> {
 
     return next.handle(request)
-    .pipe(
-        catchError((httpResponse) => {
-            let errorMessage : string = httpResponse.error.message + "\n";
-            for (let err of httpResponse.error.errors) {
-                errorMessage += err.message + "\n";
-            }
-            alert(errorMessage)
-            return new Observable<HttpEvent<Response<any>>>();
-        })
-    )
+    // .pipe(
+    //     catchError((httpResponse) => {
+    //         let errorMessage : string = httpResponse.error.message + "\n";
+    //         for (let err of httpResponse.error.errors) {
+    //             errorMessage += err.message + "\n";
+    //         }
+    //         alert(errorMessage)
+    //         return new Observable<HttpEvent<Response<any>>>();
+    //     })
+    // )
   }
 }
