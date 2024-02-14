@@ -36,6 +36,7 @@ export class AuthService {
   }
 
   signOut(): void {
+    localStorage.removeItem('aftasuser');
     localStorage.removeItem('aftasacctoken');
     localStorage.removeItem('aftasreftoken');
   }
