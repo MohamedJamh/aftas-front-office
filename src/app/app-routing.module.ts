@@ -9,12 +9,14 @@ import {CompetitionsComponent} from "./components/dashboard/competitions/competi
 import {HomeDashboardComponent} from "./components/dashboard/home-dashboard/home-dashboard.component";
 import {AuthComponent} from "./components/auth/auth.component";
 import {SiginComponent} from "./components/auth/signin/sigin.component";
+import {AuthGuardGuard} from "./core/guards/auth-guard.guard";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuardGuard],
     children: [
       {path: '', component: HomeDashboardComponent},
       {path: 'members', component: MembersComponent},
