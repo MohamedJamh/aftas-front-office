@@ -6,6 +6,8 @@ import {HttpResponse} from "@angular/common/http";
 import {Member} from "../../../core/models/Member";
 import {Rank} from "../../../core/models/Irank";
 import {RankingService} from "../../../core/services/ranking-service";
+import {UserService} from "../../../core/services/UserService";
+import {EnvService} from "../../../core/services/EnvService";
 
 @Component({
   selector: 'app-competitions',
@@ -21,7 +23,12 @@ export class CompetitionsComponent implements OnInit {
   memberCodeToEnroll: Member = new Member();
   competitionRankings: Rank[] = [];
 
-  constructor(protected competitionService : CompetitionService,private rankingService : RankingService) { }
+  constructor(
+    protected competitionService : CompetitionService,
+    private rankingService : RankingService,
+    protected userService : UserService,
+    private envService : EnvService
+  ) { }
 
   ngOnInit(): void {
     this.competitionService.getAllCompetitions()
@@ -69,4 +76,6 @@ export class CompetitionsComponent implements OnInit {
         }
     )
   }
+
+
 }

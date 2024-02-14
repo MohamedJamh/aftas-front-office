@@ -15,7 +15,7 @@ export class FishService {
         return this.httpClient.get<Response<Fish[]>>(this.envService.apiUrl + "/fishes", {observe : 'response'})
     }
 
-    addEquipment(fish: Fish): Observable<HttpResponse<Response<Fish>>> {
+    addFish(fish: Fish): Observable<HttpResponse<Response<Fish>>> {
         return this.httpClient.post<Response<Fish>>(this.envService.apiUrl + "/fishes", fish, {observe : 'response'})
     }
 }

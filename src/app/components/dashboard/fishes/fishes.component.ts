@@ -40,7 +40,7 @@ export class FishesComponent implements OnInit {
   }
 
   addFish() {
-      this.fishService.addEquipment(this.newFish).subscribe((response : HttpResponse<Response<Fish>>) => {
+      this.fishService.addFish(this.newFish).subscribe((response : HttpResponse<Response<Fish>>) => {
           if( [200,201].includes(response.status) && response.body?.result){
               this.fishes.push(response.body.result);
               alert(response.body.message)

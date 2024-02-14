@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../../core/services/AuthService";
+import {UserService} from "../../core/services/UserService";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,11 @@ import {AuthService} from "../../core/services/AuthService";
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private readonly _router: Router,private authService : AuthService) { }
+  constructor(
+    private readonly _router: Router,
+    private authService : AuthService,
+    protected userService: UserService
+  ) { }
 
   ngOnInit() {
   }

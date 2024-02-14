@@ -28,11 +28,15 @@ export class UserService {
     let user = localStorage.getItem('aftasuser');
     if(user){
       const decryptUser : User = JSON.parse(this.cryptoService.decrypt(user)) as User;
-      console.log(decryptUser)
       authorities.push(...decryptUser.rolePermissions!);
       authorities.push(...decryptUser.permissionGroupPermissions!);
     }
     return authorities;
+  }
+
+  canPerform(actions:string[]): boolean {
+    const allActions = actions.concat(this.envService.superAdminPermissions)
+    return this.authorities.filter(authorities => allActions.includes(authorities)).length > 0;
   }
 
 }

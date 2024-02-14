@@ -5,10 +5,8 @@ import {environment} from "../../../environments/environment";
     providedIn: 'root'
 })
 export class EnvService {
-    constructor() {
-    }
-
-    get apiUrl() : string {
-        return environment.apiUrl;
-    }
+  constructor() {
+  }
+  get apiUrl() : string { return environment.apiUrl;}
+  get superAdminPermissions() : string[] { return environment.superAdminPermissions;}
 }

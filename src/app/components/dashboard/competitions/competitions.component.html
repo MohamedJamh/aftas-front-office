@@ -1,6 +1,10 @@
 <div class="flex justify-between py-5">
     <h1 class="font-extrabold text-3xl ">Competitions</h1>
-    <button data-modal-target="competition-modal" data-modal-toggle="competition-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    <button
+      *ngIf="this.userService.canPerform(['competition:create','competition:all'])"
+      data-modal-target="competition-modal"
+      data-modal-toggle="competition-modal"
+      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
         Add Competition
     </button>
 </div>
@@ -79,7 +83,7 @@
                     {{competition.amount }} DH
                 </td>
                 <td class="px-6 py-4 flex justify-between items-center gap-1">
-                  <button data-modal-target="enroll-modal" data-modal-toggle="enroll-modal" (click)="prepareMemberEnroll(competition.id ?? -1)" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                  <button *ngIf="this.userService.canPerform(['member:enroll'])" data-modal-target="enroll-modal" data-modal-toggle="enroll-modal" (click)="prepareMemberEnroll(competition.id ?? -1)" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                         <span  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                             Enroll a member
                         </span>

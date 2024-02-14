@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import {User} from "../models/IUser";
 import {UserService} from "../services/UserService";
 
 @Injectable({
@@ -12,9 +11,7 @@ export class AuthGuardGuard implements CanActivate {
   }
   canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
   {
-    const userAuthorities = this.userService.authorities
-    console.log(userAuthorities)
-    return userAuthorities.includes('competition:read');
+    return this.userService.canPerform(['competitions:read']);
   }
 
 }
