@@ -11,7 +11,7 @@ export class AuthGuardGuard implements CanActivate {
   }
   canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
   {
-    return this.userService.canPerform(['competitions:read']);
+    return this.userService.canPerform(['competition:read']);
   }
 
 }

@@ -18,7 +18,6 @@ import {CryptoService} from "../../../core/services/CryptoService";
 export class SiginComponent implements OnInit {
   form!: FormGroup;
   submitted : boolean = false;
-  passwordTextType!: boolean;
 
   constructor(
     private readonly _formBuilder: FormBuilder,

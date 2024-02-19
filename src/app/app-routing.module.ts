@@ -10,6 +10,7 @@ import {HomeDashboardComponent} from "./components/dashboard/home-dashboard/home
 import {AuthComponent} from "./components/auth/auth.component";
 import {SiginComponent} from "./components/auth/signin/sigin.component";
 import {AuthGuardGuard} from "./core/guards/auth-guard.guard";
+import {SignupComponent} from "./components/auth/signup/signup.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
     path: 'auth',
     component: AuthComponent,
     children:[
-      {path: '', component: SiginComponent}
+      {path: '', component: SiginComponent},
+      {path: 'sign-up', component: SignupComponent}
     ]
   }
 ];

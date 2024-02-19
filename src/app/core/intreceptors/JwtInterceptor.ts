@@ -63,6 +63,7 @@ export class JwtInterceptor implements HttpInterceptor {
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     this.authService.refreshToken().subscribe((response: HttpResponse<Response<Auth>>) => {
         if([200].includes(response.status) && response.body?.result){
+          this.countError = 0;
           alert("new acc token")
           localStorage.setItem('aftasacctoken', response.body?.result.accessToken!);
           this._router.navigate(['/dashboard']);

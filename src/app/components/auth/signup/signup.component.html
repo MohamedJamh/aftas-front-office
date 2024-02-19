@@ -1,0 +1,74 @@
+<form class="max-w-sm mx-auto border p-4 rounded-lg" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="mb-5">
+    <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your First Name</label>
+    <input
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      type="text"
+      id="firstName"
+      placeholder="first Name"
+      formControlName="firstName" />
+  </div>
+  <div class="mb-5">
+    <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Last Name</label>
+    <input
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      type="text"
+      id="lastName"
+      placeholder="last Name"
+      formControlName="lastName" />
+  </div>
+  <div class="mb-5">
+    <label for="nationality" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Nationality</label>
+    <select
+      id="nationality"
+      formControlName="nationality"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <option value="Moroccan">Moroccan</option>
+      <option value="Canadian">Canadian</option>
+    </select>
+  </div>
+  <div class="mb-5">
+    <label for="identityType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Identity type</label>
+    <select
+      id="identityType"
+      formControlName="identityType"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <option value="Moroccan">Passport</option>
+      <option value="">CIN</option>
+    </select>
+  </div>
+  <div class="mb-5">
+    <label for="identityNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Identity number</label>
+    <input
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      type="text"
+      id="identityNumber"
+      placeholder="identity number"
+      formControlName="identityNumber" />
+  </div>
+  <div class="mb-5">
+    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+    <input
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      type="text"
+      id="email"
+      placeholder="me@aftas.com"
+      formControlName="email" />
+  </div>
+  <div class="mb-5">
+    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label><input
+    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    type="password"
+    id="password"
+    placeholder="********"
+    formControlName="password" />
+  </div>
+  <div class="flex items-start mb-5">
+    <div class="flex items-center h-5">
+      <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required>
+    </div>
+    <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+  </div>
+  <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center ">Submit</button>
+</form>
+
