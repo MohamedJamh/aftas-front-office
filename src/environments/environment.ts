@@ -7,7 +7,8 @@ export const environment = {
   apiUrl : 'http://localhost:8081/api',
   privateKey: 'AqKi2ubiUjRGljNoMb6WOwiWmHyZ6LcT',
   superAdminPermissions:['manage:all'],
-  competitionSuperPermission: 'competitions:all'
+  competitionSuperPermission: 'competitions:all',
+  allowedIdentityTypes: ['CARTE_RESIDENCE', 'CIN', 'PASSPORT'],
 };
 
 /*

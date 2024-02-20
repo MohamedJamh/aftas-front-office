@@ -53,19 +53,11 @@ export class SiginComponent implements OnInit {
       .subscribe((response : HttpResponse<Response<Auth>>) => {
       if([200].includes(response.status) && response.body?.result){
         alert("sign-in successful!")
+        const encryptedUser : string = this.cryptoService.encrypt(JSON.stringify(response.body?.result.user));
+        localStorage.setItem('aftasuser', encryptedUser);
         localStorage.setItem('aftasacctoken', response.body?.result.accessToken!);
         localStorage.setItem('aftasreftoken', response.body?.result.refreshToken!);
-
-        this.userService.profile()
-          .pipe(first())
-          .subscribe((response : HttpResponse<Response<User>>) => {
-            if([200].includes(response.status) && response.body?.result){
-              alert("profile fetched successfully!")
-              const encryptedUser : string = this.cryptoService.encrypt(JSON.stringify(response.body?.result));
-              localStorage.setItem('aftasuser', encryptedUser);
-              this._router.navigate(['/dashboard']);
-            }
-        });
+        this._router.navigate(['/dashboard']);
       }else {
         alert("sign-in failed!")
       }

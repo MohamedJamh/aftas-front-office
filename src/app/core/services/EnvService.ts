@@ -9,4 +9,6 @@ export class EnvService {
   }
   get apiUrl() : string { return environment.apiUrl;}
   get superAdminPermissions() : string[] { return environment.superAdminPermissions;}
+
+  get allowedIdentityTypes() : string[] { return environment.allowedIdentityTypes;}
 }

@@ -12,14 +12,18 @@ import {User} from "../models/IUser";
 })
 export class AuthService {
 
-  private readonly endpointPrefix = '/auth';
+  private readonly endpointPrefix : string = '/auth';
   constructor(private httpClient: HttpClient, private envService: EnvService) {}
   signIn(userCredentials: User): Observable<HttpResponse<Response<Auth>>> {
-    return this.httpClient.post<Response<Auth>>(this.envService.apiUrl + this.endpointPrefix + '/signin',
+    return this.httpClient.post<Response<Auth>>(this.envService.apiUrl + this.endpointPrefix + '/signin', userCredentials,
       {
-        email: userCredentials.email,
-        password: userCredentials.password
-      },
+        observe: 'response'
+      }
+    );
+  }
+
+  signUp(userCredentials: User): Observable<HttpResponse<Response<Auth>>> {
+    return this.httpClient.post<Response<Auth>>(this.envService.apiUrl + this.endpointPrefix + '/signup', userCredentials,
       {
         observe: 'response'
       }
