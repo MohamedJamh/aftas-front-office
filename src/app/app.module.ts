@@ -6,7 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MembersComponent } from './components/dashboard/members/members.component';
+import { UsersComponent } from './components/dashboard/members/users.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { LoaderComponent } from './components/shared/loader/loader.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -19,7 +19,6 @@ import { AuthComponent } from './components/auth/auth.component';
 import { SiginComponent } from './components/auth/signin/sigin.component';
 import {NgOptimizedImage} from "@angular/common";
 import {JwtInterceptor} from "./core/intreceptors/JwtInterceptor";
-import {ErrorInterceptor} from "./core/intreceptors/ErrorInterceptor";
 import { SignupComponent } from './components/auth/signup/signup.component';
 
 @NgModule({
@@ -28,7 +27,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
     DashboardComponent,
     NavbarComponent,
     HomeComponent,
-    MembersComponent,
+    UsersComponent,
     LoaderComponent,
     LevelsComponent,
     FishesComponent,
@@ -49,7 +48,6 @@ import { SignupComponent } from './components/auth/signup/signup.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

@@ -5,7 +5,7 @@ import {HttpResponse} from "@angular/common/http";
 import {Response} from "../../../core/models/Response";
 import {Rank} from "../../../core/models/Irank";
 import {Fish} from "../../../core/models/Ifish";
-import {Member} from "../../../core/models/Member";
+import {User} from "../../../core/models/IUser";
 import {FishService} from "../../../core/services/FishService";
 import {HuntingService} from "../../../core/services/hunting-service";
 import {RankingService} from "../../../core/services/ranking-service";
@@ -20,7 +20,7 @@ export class HomeDashboardComponent implements OnInit {
   currentDate : Date = new Date();
   upcomingCompetitions : Competition[] = [];
   competitionRealTimeScore: Rank[] = [];
-  competitionMembers : Member[] = [];
+  competitionMembers : User[] = [];
   fishes : Fish[] = [];
   loading : boolean = true;
   newHunt : {
@@ -82,7 +82,7 @@ export class HomeDashboardComponent implements OnInit {
   }
 
   private getCompetitionMembers() {
-    this.competitionService.getCompetitionMembers(this.upcomingCompetitions[0].id!).subscribe((response : HttpResponse<Response<Member[]>>) => {
+    this.competitionService.getCompetitionMembers(this.upcomingCompetitions[0].id!).subscribe((response : HttpResponse<Response<User[]>>) => {
       if( [200].includes(response.status) && response.body?.result){
         this.competitionMembers = response.body.result;
       }

@@ -19,18 +19,15 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService : AuthService, private readonly _router: Router,) {}
   private countError : number = 0
   intercept( request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(request.url.includes('auth')) return next.handle(request)
 
+    if(request.url.includes('auth')) return next.handle(request)
     let accessToken : string | null = localStorage.getItem("aftasacctoken");
     let refToken : string | null = localStorage.getItem("aftasreftoken");
 
     if(
       (accessToken == null && localStorage.getItem("aftasreftoken") == null ) ||
       (localStorage.getItem("aftasuser") == null && ! request.url.includes('profile') )
-    ){
-      this.timeOutSession()
-    }
-
+    ) this.timeOutSession()
 
     if (accessToken) {
       request = request.clone({
@@ -42,22 +39,16 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((err:HttpErrorResponse) => {
-        //handle 401 error
         if(err.status === 401 && this.countError != 1){
           this.countError++;
           this.handle401Error(request, next);
         }
-        //handle access token and refresh token broken
-        else if(this.countError === 1){
-          this.timeOutSession()
-        }
-        //handle other errors
-        else{
-          this.handleOtherError(err)
-        }
+        else if(this.countError === 1) this.timeOutSession()
+        else this.handleOtherError(err)
         throw err;
       })
     );
+
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
@@ -73,7 +64,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
   private timeOutSession(){
     this.authService.signOut();
-    this._router.navigate(['/auth']);
   }
 
   private handleOtherError(err:HttpErrorResponse){

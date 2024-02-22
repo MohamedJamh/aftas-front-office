@@ -6,7 +6,7 @@ import {Response} from "../models/Response";
 import {Competition} from "../models/ICompetition";
 import {Order} from "../models/IOrder";
 import {Rank} from "../models/Irank";
-import {Member} from "../models/Member";
+import {User} from "../models/IUser";
 @Injectable({
     providedIn: 'root'
 })
@@ -50,8 +50,8 @@ export class CompetitionService {
     return this.httpClient.get<Response<Competition[]>>(this.envService.apiUrl + "/competitions/upcoming",  {observe : 'response'})
   }
 
-  getCompetitionMembers(competitionId : number): Observable<HttpResponse<Response<Member[]>>> {
-    return this.httpClient.get<Response<Member[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/members",  {observe : 'response'})
+  getCompetitionMembers(competitionId : number): Observable<HttpResponse<Response<User[]>>> {
+    return this.httpClient.get<Response<User[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/members",  {observe : 'response'})
   }
 
   competitionRealTimeScore(competitionId : number): Observable<HttpResponse<Response<Rank[]>>> {

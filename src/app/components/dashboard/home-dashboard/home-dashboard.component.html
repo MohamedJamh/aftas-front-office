@@ -127,7 +127,7 @@
             <form class="space-y-4" action="#">
               <h4 >Personal Information</h4>
               <div>
-                <label for="member" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Member</label>
+                <label for="member" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
                 <select [(ngModel)]="newHunt.memberId" name="member" id="member" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option *ngFor="let member of competitionMembers" [value]="member.id" >{{member.lastName?.toLocaleUpperCase()}} - {{member.num}}</option>
                 </select>

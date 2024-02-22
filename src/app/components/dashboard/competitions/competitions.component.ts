@@ -3,7 +3,7 @@ import {Competition} from "../../../core/models/ICompetition";
 import {CompetitionService} from "../../../core/services/CompetitionService";
 import {Response} from "../../../core/models/Response";
 import {HttpResponse} from "@angular/common/http";
-import {Member} from "../../../core/models/Member";
+import {User} from "../../../core/models/IUser";
 import {Rank} from "../../../core/models/Irank";
 import {RankingService} from "../../../core/services/ranking-service";
 import {UserService} from "../../../core/services/UserService";
@@ -20,7 +20,7 @@ export class CompetitionsComponent implements OnInit {
   newCompetition  : Competition = new Competition();
   currentDate : Date = new Date();
   competitionIdToEnroll : number = -1;
-  memberCodeToEnroll: Member = new Member();
+  memberCodeToEnroll: User = new User();
   competitionRankings: Rank[] = [];
 
   constructor(

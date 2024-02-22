@@ -1,11 +1,13 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {EnvService} from "./EnvService";
 import {Response} from "../models/Response";
 import {Observable} from "rxjs";
-import {Auth} from "../models/IAuth";
 import {User} from "../models/IUser";
 import {CryptoService} from "./CryptoService";
+import {AuthService} from "./AuthService";
+import {Router} from "@angular/router";
+import {UserPagination} from "../../components/dashboard/members/models/IUserPagination";
 
 
 @Injectable({
@@ -17,8 +19,29 @@ export class UserService {
   constructor(
     private httpClient: HttpClient,
     private envService: EnvService,
-    private cryptoService: CryptoService
+    private cryptoService: CryptoService,
+    private authService: AuthService,
+    private readonly _router: Router,
   ) {}
+
+  getUsers(disabled : boolean = false,pageNo? : number, ) : Observable<HttpResponse<Response<UserPagination>>> {
+    let fetchEndpoint = this.endpointPrefix;
+    if(disabled) fetchEndpoint += "/disabled";
+    if(pageNo) fetchEndpoint += "?pageNo=" + pageNo
+    return this.httpClient.get<Response<UserPagination>>(this.envService.apiUrl + fetchEndpoint,
+      {observe : 'response'}
+    )
+  }
+
+  addUsers(user : User): Observable<HttpResponse<Response<User>>> {
+    return this.httpClient.post<Response<User>>(this.envService.apiUrl + this.endpointPrefix, user, {observe : 'response'})
+  }
+
+  searchUsers(searchValue: string) {
+    let params = new HttpParams()
+      .set('value',searchValue)
+    return this.httpClient.get<Response<UserPagination>>(this.envService.apiUrl + this.endpointPrefix + "/search", {observe : 'response', params : params})
+  }
   profile(): Observable<HttpResponse<Response<User>>> {
     return this.httpClient.get<Response<User>>(this.envService.apiUrl + this.endpointPrefix + '/profile', { observe: 'response' })
   }

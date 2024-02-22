@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {HomeComponent} from "./components/home/home.component";
-import {MembersComponent} from "./components/dashboard/members/members.component";
+import {UsersComponent} from "./components/dashboard/members/users.component";
 import {LevelsComponent} from "./components/dashboard/levels/levels.component";
 import {FishesComponent} from "./components/dashboard/fishes/fishes.component";
 import {CompetitionsComponent} from "./components/dashboard/competitions/competitions.component";
@@ -11,6 +11,7 @@ import {AuthComponent} from "./components/auth/auth.component";
 import {SiginComponent} from "./components/auth/signin/sigin.component";
 import {AuthGuardGuard} from "./core/guards/auth-guard.guard";
 import {SignupComponent} from "./components/auth/signup/signup.component";
+import {LoggedGuardGuard} from "./core/guards/logged-guard.guard";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,9 +19,10 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuardGuard],
+    canActivateChild: [AuthGuardGuard],
     children: [
       {path: '', component: HomeDashboardComponent},
-      {path: 'members', component: MembersComponent},
+      {path: 'members', component: UsersComponent},
       {path: 'levels', component: LevelsComponent},
       {path: 'fishes', component: FishesComponent},
       {path: 'competitions', component: CompetitionsComponent}
@@ -29,6 +31,8 @@ const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    canActivate: [LoggedGuardGuard],
+    canActivateChild: [LoggedGuardGuard],
     children:[
       {path: '', component: SiginComponent},
       {path: 'sign-up', component: SignupComponent}

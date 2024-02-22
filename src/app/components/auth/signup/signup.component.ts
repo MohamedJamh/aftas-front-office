@@ -59,7 +59,7 @@ export class SignupComponent implements OnInit {
     this.authService.signUp(user)
       .subscribe((response : HttpResponse<Response<Auth>>) => {
         if([200].includes(response.status) && response.body?.result){
-          alert("sign-up successful! \n" + "Contact Your aftas stuff to enable your account in order to be able to connect" )
+          alert("sign-up successful! \n" + "Contact aftas stuff to enable your account in order to be able to connect" )
           this._router.navigate(['/auth']);
         }else {
           alert("sign-in failed!")
