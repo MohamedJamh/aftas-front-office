@@ -13,6 +13,7 @@ export interface IUser{
   roles? : Role[];
   rolePermissions?: string[];
   permissionGroupPermissions?: string[];
+  isEnable?: boolean;
 }
 export class User implements IUser {
   constructor(public id?: number,
@@ -29,7 +30,8 @@ export class User implements IUser {
               public organizationName? : string,
               public roles? : Role[],
               public rolePermissions?: string[],
-              public permissionGroupPermissions?: string[]
+              public permissionGroupPermissions?: string[],
+              public isEnable?: boolean
   ){}
 
   setId(id: number): void {

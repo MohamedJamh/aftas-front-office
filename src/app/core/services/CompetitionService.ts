@@ -13,8 +13,6 @@ import {User} from "../models/IUser";
 export class CompetitionService {
 
   constructor(private httpClient : HttpClient,private envService : EnvService) { }
-
-
     getAllCompetitions(): Observable<HttpResponse<Response<Competition[]>>>{
         return this.httpClient.get<Response<Competition[]>>(this.envService.apiUrl + "/competitions", {observe : 'response'})
             .pipe(
@@ -30,16 +28,16 @@ export class CompetitionService {
     }
     createCompetition(competition : Competition):Observable<HttpResponse<Response<Competition>>> {
         return this.httpClient.post<Response<Competition>>(this.envService.apiUrl + "/competitions",competition, {observe : 'response'})
-            .pipe(
-                catchError((httpResponse) => {
-                    let errorMessage : string = httpResponse.error.message + "\n";
-                    for (let err of httpResponse.error.errors) {
-                        errorMessage += err.message + "\n";
-                    }
-                    alert(errorMessage)
-                    return new Observable<HttpResponse<Response<Competition>>>();
-                })
-            )
+          .pipe(
+              catchError((httpResponse) => {
+                  let errorMessage : string = httpResponse.error.message + "\n";
+                  for (let err of httpResponse.error.errors) {
+                      errorMessage += err.message + "\n";
+                  }
+                  alert(errorMessage)
+                  return new Observable<HttpResponse<Response<Competition>>>();
+              })
+          )
     }
 
   competitionEnroll(competitionIdToEnroll: number, memberId: number): Observable<HttpResponse<Response<null>>> {
@@ -51,7 +49,7 @@ export class CompetitionService {
   }
 
   getCompetitionMembers(competitionId : number): Observable<HttpResponse<Response<User[]>>> {
-    return this.httpClient.get<Response<User[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/members",  {observe : 'response'})
+    return this.httpClient.get<Response<User[]>>(this.envService.apiUrl + "/competitions/" + competitionId + "/users",  {observe : 'response'})
   }
 
   competitionRealTimeScore(competitionId : number): Observable<HttpResponse<Response<Rank[]>>> {

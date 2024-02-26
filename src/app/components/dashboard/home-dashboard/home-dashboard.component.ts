@@ -9,6 +9,8 @@ import {User} from "../../../core/models/IUser";
 import {FishService} from "../../../core/services/FishService";
 import {HuntingService} from "../../../core/services/hunting-service";
 import {RankingService} from "../../../core/services/ranking-service";
+import {AuthService} from "../../../core/services/AuthService";
+import {UserService} from "../../../core/services/UserService";
 
 @Component({
   selector: 'app-home-dashboard',
@@ -37,7 +39,8 @@ export class HomeDashboardComponent implements OnInit {
   constructor(protected competitionService : CompetitionService,
               private fishService : FishService,
               private huntingService : HuntingService,
-              private rankingService : RankingService
+              private rankingService : RankingService,
+              protected userService : UserService,
   ) { }
 
   ngOnInit(): void {
@@ -85,6 +88,7 @@ export class HomeDashboardComponent implements OnInit {
     this.competitionService.getCompetitionMembers(this.upcomingCompetitions[0].id!).subscribe((response : HttpResponse<Response<User[]>>) => {
       if( [200].includes(response.status) && response.body?.result){
         this.competitionMembers = response.body.result;
+        console.log(this.competitionMembers)
       }
     })
   }

@@ -15,7 +15,7 @@ import {UserPagination} from "../../components/dashboard/members/models/IUserPag
 })
 export class UserService {
 
-  private readonly endpointPrefix = '/users';
+  private readonly endpointPrefix: string = '/users';
   constructor(
     private httpClient: HttpClient,
     private envService: EnvService,
@@ -24,10 +24,10 @@ export class UserService {
     private readonly _router: Router,
   ) {}
 
-  getUsers(disabled : boolean = false,pageNo? : number, ) : Observable<HttpResponse<Response<UserPagination>>> {
+  getUsers(disabled? : boolean,pageNo? : number, ) : Observable<HttpResponse<Response<UserPagination>>> {
     let fetchEndpoint = this.endpointPrefix;
     if(disabled) fetchEndpoint += "/disabled";
-    if(pageNo) fetchEndpoint += "?pageNo=" + pageNo
+    if(pageNo) fetchEndpoint += "?pageNo=" + pageNo;
     return this.httpClient.get<Response<UserPagination>>(this.envService.apiUrl + fetchEndpoint,
       {observe : 'response'}
     )
@@ -44,6 +44,11 @@ export class UserService {
   }
   profile(): Observable<HttpResponse<Response<User>>> {
     return this.httpClient.get<Response<User>>(this.envService.apiUrl + this.endpointPrefix + '/profile', { observe: 'response' })
+  }
+
+  enableUser(userNum: number): Observable<HttpResponse<Response<User>>> {
+    const fetchEndpoint = this.endpointPrefix + '/' + userNum + '/enable';
+    return this.httpClient.post<Response<User>>(this.envService.apiUrl + fetchEndpoint, {}, { observe: 'response' })
   }
 
   get authorities(): string[] {

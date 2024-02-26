@@ -6,6 +6,7 @@ import { Response } from 'src/app/core/models/Response';
 import {UserService} from "../../../core/services/UserService";
 import {UserPagination} from "./models/IUserPagination";
 
+
 @Component({
   selector: 'app-members',
   templateUrl: './users.component.html',
@@ -14,23 +15,21 @@ import {UserPagination} from "./models/IUserPagination";
 export class UsersComponent implements OnInit {
 
   availableUsers : UserPagination = new UserPagination();
-  disabledUsers : UserPagination = new UserPagination();
   newUser  : User = new User();
   searchValue : string = "";
 
   constructor(private userService : UserService) { }
 
   ngOnInit(): void {
-    this.userService.getUsers()
+    this.fetchAllUsers();
+  }
+
+  fetchAllUsers(pageNo? : number) {
+    if(!pageNo) pageNo = 0;
+    this.userService.getUsers(false,pageNo)
       .subscribe((response : HttpResponse<Response<UserPagination>>) => {
         if(response.status == 200 && response.body?.result){
-            this.availableUsers = response.body.result;
-        }
-      })
-    this.userService.getUsers(true,5)
-      .subscribe((response : HttpResponse<Response<UserPagination>>) => {
-        if(response.status == 200 && response.body?.result){
-          this.disabledUsers = response.body.result;
+          this.availableUsers = response.body.result;
         }
       })
   }
@@ -46,28 +45,9 @@ export class UsersComponent implements OnInit {
   trackUser(index : number, user : User) {
     return user.id!;
   }
-  previousPage(table : string) {
-    switch (table)
-    {
-      case "available":
-        this.previousOnAvailablePage();
-        break;
-      case "disabled":
-        this.previousOnDisabledPage();
-        break;
-    }
-  }
-  nextPage(table : string) {
-    switch (table)
-    {
-      case "available":
-        this.nextOnAvailablePage();
-        break;
-      case "disabled":
-        this.nextOnDisabledPage();
-        break;
-    }
-
+  trackDisUser(index : number, user : User) {
+    console.log(user)
+    return user.id!;
   }
 
   searchUser() {
@@ -81,6 +61,24 @@ export class UsersComponent implements OnInit {
                   }
               })
       }
+  }
+
+  previousPage(table : string) {
+    switch (table)
+    {
+      case "available":
+        this.previousOnAvailablePage();
+        break;
+    }
+  }
+  nextPage(table : string) {
+    switch (table)
+    {
+      case "available":
+        this.nextOnAvailablePage();
+        break;
+    }
+
   }
 
   resetUserTable() {
@@ -103,16 +101,6 @@ export class UsersComponent implements OnInit {
         })
     }
   }
-  private previousOnDisabledPage() {
-    if(this.disabledUsers.currentPage! > 1){
-      this.userService.getUsers(false,this.disabledUsers.currentPage! - 2)
-        .subscribe((response : HttpResponse<Response<UserPagination>>) => {
-          if(response.status == 200 && response.body?.result){
-            this.disabledUsers = response.body.result;
-          }
-        })
-    }
-  }
   private nextOnAvailablePage() {
     if(this.availableUsers.currentPage! < this.availableUsers.totalPages!){
       this.userService.getUsers(false,this.availableUsers.currentPage!)
@@ -123,14 +111,13 @@ export class UsersComponent implements OnInit {
         })
     }
   }
-  private nextOnDisabledPage() {
-    if(this.disabledUsers.currentPage! < this.disabledUsers.totalPages!){
-      this.userService.getUsers(false,this.disabledUsers.currentPage!)
-        .subscribe((response : HttpResponse<Response<UserPagination>>) => {
-          if(response.status == 200 && response.body?.result){
-            this.disabledUsers = response.body.result;
-          }
-        })
-    }
+
+  enableUser(user: User) {
+    this.userService.enableUser(user.num!).subscribe((response : HttpResponse<Response<User>>) => {
+      if([200].includes(response.status) && response.body?.result){
+        this.fetchAllUsers(this.availableUsers.currentPage! -1);
+        window.alert(response.body.message)
+      }
+    })
   }
 }
