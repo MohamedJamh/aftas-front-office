@@ -58,11 +58,7 @@ export class AuthService {
 
   isLogged(): boolean {
     const user = localStorage.getItem('aftasuser');
-    if(
-      localStorage.getItem('aftasacctoken') &&
-      localStorage.getItem('aftasreftoken') &&
-      user
-    ) {
+    if( user ) {
       try {
         const decryptUser : User = JSON.parse(this.cryptoService.decrypt(user)) as User;
         return true;

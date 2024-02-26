@@ -19,14 +19,15 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService : AuthService, private readonly _router: Router,) {}
   private countError : number = 0
   intercept( request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     if(request.url.includes('auth')) return next.handle(request)
+
     let accessToken : string | null = localStorage.getItem("aftasacctoken");
     let refToken : string | null = localStorage.getItem("aftasreftoken");
+    let user : string | null = localStorage.getItem("aftasuser");
 
     if(
-      (accessToken == null && localStorage.getItem("aftasreftoken") == null ) ||
-      (localStorage.getItem("aftasuser") == null && ! request.url.includes('profile') )
+      (accessToken == null && refToken == null ) ||
+      (user == null && ! request.url.includes('profile') )
     ) this.timeOutSession()
 
     if (accessToken) {
