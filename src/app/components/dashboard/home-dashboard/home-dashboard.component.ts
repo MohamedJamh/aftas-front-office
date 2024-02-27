@@ -88,7 +88,6 @@ export class HomeDashboardComponent implements OnInit {
     this.competitionService.getCompetitionMembers(this.upcomingCompetitions[0].id!).subscribe((response : HttpResponse<Response<User[]>>) => {
       if( [200].includes(response.status) && response.body?.result){
         this.competitionMembers = response.body.result;
-        console.log(this.competitionMembers)
       }
     })
   }

@@ -46,7 +46,6 @@ export class UsersComponent implements OnInit {
     return user.id!;
   }
   trackDisUser(index : number, user : User) {
-    console.log(user)
     return user.id!;
   }
 

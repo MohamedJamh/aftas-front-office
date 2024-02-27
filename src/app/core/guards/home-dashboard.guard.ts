@@ -20,7 +20,6 @@ export class HomeDashboardGuard implements CanActivate {
     private readonly _router: Router,
   ) {}
   canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    alert('from home dashboard guard');
     if(this.userService.canPerform(['competition:read','competition:all'])) return true;
     else{
       this._router.navigate(['/error']);
