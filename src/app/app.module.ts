@@ -20,6 +20,7 @@ import { SiginComponent } from './components/auth/signin/sigin.component';
 import {NgOptimizedImage} from "@angular/common";
 import {JwtInterceptor} from "./core/intreceptors/JwtInterceptor";
 import { SignupComponent } from './components/auth/signup/signup.component';
+import { ForbiddenComponent } from './components/error/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SignupComponent } from './components/auth/signup/signup.component';
     HomeDashboardComponent,
     AuthComponent,
     SiginComponent,
-    SignupComponent
+    SignupComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,

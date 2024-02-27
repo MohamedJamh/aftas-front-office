@@ -12,6 +12,7 @@ import {SiginComponent} from "./components/auth/signin/sigin.component";
 import {AuthGuardGuard} from "./core/guards/auth-guard.guard";
 import {SignupComponent} from "./components/auth/signup/signup.component";
 import {LoggedGuardGuard} from "./core/guards/logged-guard.guard";
+import {ForbiddenComponent} from "./components/error/forbidden/forbidden.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,7 +38,8 @@ const routes: Routes = [
       {path: '', component: SiginComponent},
       {path: 'sign-up', component: SignupComponent}
     ]
-  }
+  },
+  { path: 'error', component: ForbiddenComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
