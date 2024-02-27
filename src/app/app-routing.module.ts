@@ -18,6 +18,7 @@ import {MemberGuard} from "./core/guards/member.guard";
 import {LevelGuard} from "./core/guards/level.guard";
 import {FishGuard} from "./core/guards/fish.guard";
 import {CompetitionGuard} from "./core/guards/competition.guard";
+import {NotFoundComponent} from "./components/error/notFound/notFound.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,7 +45,8 @@ const routes: Routes = [
       {path: 'sign-up', component: SignupComponent}
     ]
   },
-  { path: 'error', component: ForbiddenComponent }
+  { path: 'error', component: ForbiddenComponent },
+  { path: '**', component: NotFoundComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
