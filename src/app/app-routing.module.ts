@@ -13,6 +13,11 @@ import {AuthGuardGuard} from "./core/guards/auth-guard.guard";
 import {SignupComponent} from "./components/auth/signup/signup.component";
 import {LoggedGuardGuard} from "./core/guards/logged-guard.guard";
 import {ForbiddenComponent} from "./components/error/forbidden/forbidden.component";
+import {HomeDashboardGuard} from "./core/guards/home-dashboard.guard";
+import {MemberGuard} from "./core/guards/member.guard";
+import {LevelGuard} from "./core/guards/level.guard";
+import {FishGuard} from "./core/guards/fish.guard";
+import {CompetitionGuard} from "./core/guards/competition.guard";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,11 +27,11 @@ const routes: Routes = [
     canActivate: [AuthGuardGuard],
     canActivateChild: [AuthGuardGuard],
     children: [
-      {path: '', component: HomeDashboardComponent},
-      {path: 'members', component: UsersComponent},
-      {path: 'levels', component: LevelsComponent},
-      {path: 'fishes', component: FishesComponent},
-      {path: 'competitions', component: CompetitionsComponent}
+      {path: '', component: HomeDashboardComponent, canActivate: [HomeDashboardGuard]},
+      {path: 'members', component: UsersComponent, canActivate: [MemberGuard]},
+      {path: 'levels', component: LevelsComponent, canActivate: [LevelGuard]},
+      {path: 'fishes', component: FishesComponent, canActivate: [FishGuard]},
+      {path: 'competitions', component: CompetitionsComponent, canActivate: [CompetitionGuard]}
     ]
   },
   {

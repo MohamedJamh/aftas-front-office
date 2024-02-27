@@ -14,18 +14,16 @@ import {AuthService} from "../services/AuthService";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardGuard implements CanActivate, CanActivateChild {
+export class CompetitionGuard implements CanActivate {
   constructor(
-    private authService: AuthService
+    private userService: UserService,
+    private readonly _router: Router,
   ) {}
   canActivate( route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    alert('from auth guard');
-    return this.checkLogged();
-  }
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.checkLogged();
-  }
-  private checkLogged() : boolean {
-    return this.authService.isLogged();
+    if(this.userService.canPerform(['competition:read','competition:all'])) return true;
+    else{
+      this._router.navigate(['/error']);
+      return false;
+    }
   }
 }
